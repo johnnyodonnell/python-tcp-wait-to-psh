@@ -1,0 +1,38 @@
+
+* Sending the entire payload under a single datagram doesn't
+        seem like it will be a viable option.
+    - At first I was getting an OSError:
+        * `OSError: [Errno 90] Message too long`
+        * However, I was able to fix this by increasing the MTU
+                with the following command
+            - `sudo ifconfig tun0 mtu 5000 up`
+            - This fixed the OSError, but I still couldn't get
+                the packet through
+    - Once I solved the OSError issue, I still couldn't get the
+        packet through. I'm assuming the VPN drops packets that
+        are too large.
+    - I need to try sending multiple datagrams but without
+        checking the PSH flag until the end.
+
+* Creating a distributable python package
+    - https://packaging.python.org/en/latest/tutorials/packaging-projects/
+
+* `tcpdump` commands
+    - `sudo tcpdump --interface lo -nn -X port 4444`
+
+* Dealing with the automatic RST from the OS
+    - https://stackoverflow.com/q/58985978/5832619
+    - https://widu.tumblr.com/post/43624355124/suppressing-tcp-rst-on-raw-sockets
+    - https://stackoverflow.com/a/31762613/5832619
+    - https://stackoverflow.com/q/33741002/5832619
+    - https://stackoverflow.com/a/48894210/5832619
+	* Probably the best solution
+    - https://stackoverflow.com/a/1327794/5832619
+
+* Command to get network interface used by ip address
+    - https://serverfault.com/a/644936/454217
+    - https://superuser.com/a/399710/714726
+
+* Other Resources
+    - https://inc0x0.com/tcp-ip-packets-introduction/
+
