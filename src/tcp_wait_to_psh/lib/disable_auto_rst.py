@@ -11,6 +11,14 @@ import subprocess
 # I first tried mitigating this by opening a dummy port;
 # however, I was not able to get that to work.
 
+def cleanup():
+    # iptables -D OUTPUT -p tcp --tcp-flags RST RST -j DROP
+    for i in range(0,3):
+        subprocess.run([
+            "iptables", "-D", "OUTPUT", "-p", "tcp",
+            "--tcp-flags", "RST", "RST",
+            "-j", "DROP"])
+
 def disable(port):
     """
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -23,15 +31,9 @@ def disable(port):
         "--tcp-flags", "RST", "RST",
         "-j", "DROP"])
 
-    def cleanup():
+    def cleanup_lambda():
         # sock.close()
+        cleanup()
 
-        for i in range(0,3):
-            subprocess.run([
-                "iptables", "-D", "OUTPUT", "-p", "tcp",
-                "--tcp-flags", "RST", "RST",
-                "-j", "DROP"])
-        return
-
-    return cleanup
+    return cleanup_lambda
 
