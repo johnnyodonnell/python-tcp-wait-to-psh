@@ -1,4 +1,9 @@
 
+* Other ideas
+    - I could try sending the TCP segments in reverse. The idea
+        would be that the application can't continue until it
+        receives the first segment.
+
 * My first strategy was to try sending the entire payload in a single
         datagram, but this did not work. This repo uses a strategy
         that waits to set the PSH flag until the end
